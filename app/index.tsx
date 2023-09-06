@@ -1,9 +1,8 @@
-import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useFonts } from 'expo-font';
-import Initial from '../app/Screens/Initial'; 
+import { StatusBar } from "expo-status-bar";
+import { NavigationContainer } from "@react-navigation/native";
+import Navigation from "../app/Navigation/Navigation";
+import { useFonts } from "expo-font";
 
-const Stack = createNativeStackNavigator();
 
 export default function App() {
     const [fontsLoaded] = useFonts({
@@ -15,8 +14,10 @@ export default function App() {
     }
 
     return (
-        <Stack.Navigator initialRouteName="Initial">
-        <Stack.Screen name="Initial" component={Initial} />
-        </Stack.Navigator>
-    );
-}
+        <>
+            <StatusBar style="light" />
+                <Navigation />
+        </>
+        );
+    }
+    
