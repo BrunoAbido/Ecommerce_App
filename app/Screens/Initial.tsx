@@ -12,7 +12,7 @@ function Initial({navigation} : {navigation: any}) {
         <View style={styles.content}>
             <Text style={styles.title}>Plant Paradise</Text>
             <Text style={styles.description}>Find your favorite plants and help the environment</Text>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.replace('LogInScreen')}>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.replace('SignInScreen')}>
                 <Text style={styles.buttonText}>Sign In</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={() => navigation.replace('SignUpScreen')}>

@@ -1,19 +1,36 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
-const LogInScreen = () => {
+const SignInScreen = ( {navigation} : {navigation: any}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleSignIn = () => {
-        // lógica de autenticação
-        console.log('Email:', email);
-        console.log('Password:', password);
+        const auth = getAuth();
+        
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                console.log('Usuário autenticado:', user);
+                navigation.navigate('Home', { userId: user.uid });
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.error('Erro ao autenticar:', errorMessage);
+                
+                setErrorMessage(errorMessage);
+            });
     };
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Sign In</Text>
+            {errorMessage !== '' && (
+                <Text style={styles.errorText}>{errorMessage}</Text>
+            )}
             <TextInput
                 style={styles.input}
                 placeholder="Email"
@@ -29,6 +46,10 @@ const LogInScreen = () => {
             />
             <TouchableOpacity style={styles.button} onPress={handleSignIn}>
                 <Text style={styles.buttonText}>Sign In</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.buttonToSignIn} onPress={() => navigation.replace('SignUpScreen')}>
+                <Text style={styles.buttonToSignInText}>I dont have an account</Text>
             </TouchableOpacity>
         </View>
     );
@@ -67,6 +88,24 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
     },
+    errorText: {
+        color: 'red',
+        fontSize: 16,
+        marginBottom: 10,
+    },
+    buttonToSignIn: {
+        backgroundColor: "white",
+        width: '500%',
+        padding: 30,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    buttonToSignInText: {
+        color: 'black',
+        fontSize: 10,
+        fontWeight: 'bold',
+    }
 });
 
-export default LogInScreen;
+export default SignInScreen;
