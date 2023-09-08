@@ -14,7 +14,7 @@ export default function App() {
 
     return (
         <>
-            <StatusBar style="light" />
+            <StatusBar backgroundColor='#f4f0ff' style='dark' />
                 <Navigation />
         </>
         );

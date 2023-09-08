@@ -1,51 +1,54 @@
 import React from 'react';
-import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useNavigation } from '@react-navigation/native';
-import { firstFlatList } from '../../api/mock/data';
-import { secondFlatList } from '../../api/mock/data';
-import Favorites from './Favorites';
-import Cart from './Cart';
+import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { firstFlatList, secondFlatList } from '../../api/mock/data';
 
-const Tab = createBottomTabNavigator();
+function Home ({navigation}: {navigation: any}) {
 
-const Home = () => {
-    return (
-            <Tab.Navigator>
-                <Tab.Screen name="Home" component={HomeScreen} />
-                <Tab.Screen name="Favorites" component={Favorites} />
-                <Tab.Screen name="Cart" component={Cart} />
-            </Tab.Navigator>
-    );
-};
-
-const HomeScreen = () => {
-    const renderItem = ({ item }: { item: any }) => {
-        return (
-            <View style={styles.itemContainer1}>
-                <View style={styles.ImageContainer1}>
-                    <Image source={item.imageSource} style={styles.image1} />
-                </View>
-                <View style={styles.TextContainer1}>
-                    <Text style={styles.name1}>{item.name}</Text>
-                    <Text style={styles.price1}>${item.price.toFixed(2)}</Text>
-                </View>
-            </View>
-        );
+    type ItemType = {
+        id: string;
+        imageSource: any;
+        name: string;
+        price: number;
     };
 
-    const renderItemSecondList = ({ item }: { item: any }) => {
-        return (
+    const renderItem = ({ item }: { item: ItemType }) => {
+        const handleCardPress = () => {
+        navigation.navigate('Details', { item });
+    };
+
+    return (
+        <TouchableOpacity onPress={handleCardPress}>
+        <View style={styles.itemContainer1}>
+            <View style={styles.ImageContainer1}>
+            <Image source={item.imageSource} style={styles.image1} />
+            </View>
+            <View style={styles.TextContainer1}>
+            <Text style={styles.name1}>{item.name}</Text>
+            <Text style={styles.price1}>${item.price.toFixed(2)}</Text>
+            </View>
+        </View>
+        </TouchableOpacity>
+    );
+    };
+
+    const renderItemSecondList = ({ item }: { item: ItemType }) => {
+    const handleCardPress = () => {
+        navigation.navigate('Details', { item });
+    };
+
+    return (
+        <TouchableOpacity onPress={handleCardPress}>
             <View style={styles.itemContainer2}>
                 <View style={styles.ImageContainer2}>
-                    <Image source={item.imageSource} style={styles.image2} />
-                </View>
-                <View style={styles.TextContainer2}>
-                    <Text style={styles.name2}>{item.name}</Text>
-                    <Text style={styles.price2}>${item.price.toFixed(2)}</Text>
-                </View>
+                <Image source={item.imageSource} style={styles.image2} />
             </View>
-        );
+            <View style={styles.TextContainer2}>
+                <Text style={styles.name2}>{item.name}</Text>
+                <Text style={styles.price2}>${item.price.toFixed(2)}</Text>
+            </View>
+            </View>
+        </TouchableOpacity>
+    );
     };
 
     return (
@@ -67,12 +70,14 @@ const HomeScreen = () => {
             />
         </View>
     );
-};
+    };
 
 const styles = StyleSheet.create({
+
     container: {
         flex: 1,
         marginLeft: 22,
+        marginTop: 0,
     },
     Hello: {
         marginLeft: 4,
@@ -170,6 +175,6 @@ const styles = StyleSheet.create({
         height: '100%',
         borderRadius: 8,
     },
-});
+    });
 
-export default Home;
+    export default Home;
