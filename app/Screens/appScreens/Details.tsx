@@ -72,7 +72,7 @@ export function Details({ route, navigation }: DetailsProps) {
                     <Text style={styles.footerText}>Total price </Text>
                     <Text style={styles.newPrice}>${(price * itemQuantity).toFixed(2)}</Text>
                 </View>
-                <TouchableOpacity onPress={() => { /* Lide com o pressionamento do botão aqui */ }} style={styles.footerButton}>
+                <TouchableOpacity onPress={() => {}} style={styles.footerButton}>
                     <Text style={styles.buttonText}>Add to cart</Text>
                 </TouchableOpacity>
             </View>
