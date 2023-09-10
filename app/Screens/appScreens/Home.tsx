@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { firstFlatList, secondFlatList } from '../../api/mock/data';
 
+
 function Home ({navigation}: {navigation: any}) {
 
     type ItemType = {
@@ -9,12 +10,22 @@ function Home ({navigation}: {navigation: any}) {
         imageSource: any;
         name: string;
         price: number;
+        subtitle: string;
+        additionalText: string;
+        detailsImageSource: any;
     };
+    
 
     const renderItem = ({ item }: { item: ItemType }) => {
         const handleCardPress = () => {
-        navigation.navigate('Details', { item });
-    };
+            navigation.navigate('Details', {
+                name: item.name,
+                subtitle: item.subtitle,
+                text: item.additionalText, 
+                imageSource: item.detailsImageSource, 
+                price: item.price, 
+            });
+        };
 
     return (
         <TouchableOpacity onPress={handleCardPress}>
@@ -32,9 +43,15 @@ function Home ({navigation}: {navigation: any}) {
     };
 
     const renderItemSecondList = ({ item }: { item: ItemType }) => {
-    const handleCardPress = () => {
-        navigation.navigate('Details', { item });
-    };
+        const handleCardPress = () => {
+            navigation.navigate('Details', {
+                name: item.name,
+                subtitle: item.subtitle,
+                text: item.additionalText, 
+                imageSource: item.detailsImageSource, 
+                price: item.price, 
+            });
+        };
 
     return (
         <TouchableOpacity onPress={handleCardPress}>

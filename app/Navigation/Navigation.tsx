@@ -23,7 +23,7 @@ export type RootStackParamList = {
     Initial: undefined; 
     SignUpScreen: undefined;
     SignInScreen: undefined;
-    Details: { id: number };
+    Details: undefined;
     Home: undefined;
 };
 
@@ -93,7 +93,8 @@ const Navigation = () => {
             options={{ headerShown: false }} />
             <Stack.Screen name="Home" component={TabNavigator} 
             options={{ headerShown: false }} />
-            <Stack.Screen name="Details" component={Details} />
+        <Stack.Screen name="Details" component={Details as React.ComponentType} 
+        options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 };
