@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { firstFlatList, secondFlatList } from '../../api/mock/data';
-
 
 function Home ({navigation}: {navigation: any}) {
 
@@ -15,6 +14,7 @@ function Home ({navigation}: {navigation: any}) {
         detailsImageSource: any;
     };
     
+    const [favorites, setFavorites] = useState<ItemType[]>([]);
 
     const renderItem = ({ item }: { item: ItemType }) => {
         const handleCardPress = () => {
@@ -27,19 +27,44 @@ function Home ({navigation}: {navigation: any}) {
             });
         };
 
-    return (
-        <TouchableOpacity onPress={handleCardPress}>
-        <View style={styles.itemContainer1}>
-            <View style={styles.ImageContainer1}>
-            <Image source={item.imageSource} style={styles.image1} />
-            </View>
-            <View style={styles.TextContainer1}>
-            <Text style={styles.name1}>{item.name}</Text>
-            <Text style={styles.price1}>${item.price.toFixed(2)}</Text>
-            </View>
-        </View>
-        </TouchableOpacity>
-    );
+        const handleFavoriteToggle = () => {
+            const isFavorite = favorites.some((favoriteItem) => favoriteItem.id === item.id);
+
+            if (isFavorite) {
+                const updatedFavorites = favorites.filter((favoriteItem) => favoriteItem.id !== item.id);
+                setFavorites(updatedFavorites);
+            } else {
+                setFavorites([...favorites, item]);
+            }
+        };
+
+        const isFavorite = favorites.some((favoriteItem) => favoriteItem.id === item.id);
+
+        return (
+            <TouchableOpacity onPress={handleCardPress}>
+                <View style={styles.itemContainer1}>
+                    <View style={styles.ImageContainer1}>
+                        <Image source={item.imageSource} style={styles.image1} />
+                    </View>
+                    <View style={styles.TextContainer1}>
+                        <Text style={styles.name1}>{item.name}</Text>
+                        <Text style={styles.price1}>${item.price.toFixed(2)}</Text>
+                    </View>
+                    <TouchableOpacity
+                        onPress={handleFavoriteToggle}
+                        style={[
+                            styles.favoriteButton,
+                            isFavorite ? styles.favoriteButtonActive : null
+                        ]}
+                    >
+                        <Image
+                            source={isFavorite ? require('../../assets/images/Favorites.png') : require('../../assets/images/Favorites.png')}
+                            style={styles.favoriteIcon}
+                        />
+                    </TouchableOpacity>
+                </View>
+            </TouchableOpacity>
+        );
     };
 
     const renderItemSecondList = ({ item }: { item: ItemType }) => {
@@ -53,19 +78,44 @@ function Home ({navigation}: {navigation: any}) {
             });
         };
 
-    return (
-        <TouchableOpacity onPress={handleCardPress}>
-            <View style={styles.itemContainer2}>
-                <View style={styles.ImageContainer2}>
-                <Image source={item.imageSource} style={styles.image2} />
-            </View>
-            <View style={styles.TextContainer2}>
-                <Text style={styles.name2}>{item.name}</Text>
-                <Text style={styles.price2}>${item.price.toFixed(2)}</Text>
-            </View>
-            </View>
-        </TouchableOpacity>
-    );
+        const handleFavoriteToggle = () => {
+            const isFavorite = favorites.some((favoriteItem) => favoriteItem.id === item.id);
+
+            if (isFavorite) {
+                const updatedFavorites = favorites.filter((favoriteItem) => favoriteItem.id !== item.id);
+                setFavorites(updatedFavorites);
+            } else {
+                setFavorites([...favorites, item]);
+            }
+        };
+
+        const isFavorite = favorites.some((favoriteItem) => favoriteItem.id === item.id);
+
+        return (
+            <TouchableOpacity onPress={handleCardPress}>
+                <View style={styles.itemContainer2}>
+                    <View style={styles.ImageContainer2}>
+                        <Image source={item.imageSource} style={styles.image2} />
+                    </View>
+                    <View style={styles.TextContainer2}>
+                        <Text style={styles.name2}>{item.name}</Text>
+                        <Text style={styles.price2}>${item.price.toFixed(2)}</Text>
+                    </View>
+                    <TouchableOpacity
+                        onPress={handleFavoriteToggle}
+                        style={[
+                            styles.favoriteButton,
+                            isFavorite ? styles.favoriteButtonActive : null
+                        ]}
+                    >
+                        <Image
+                            source={isFavorite ? require('../../assets/images/Favorites.png') : require('../../assets/images/Favorites.png')}
+                            style={styles.favoriteIcon}
+                        />
+                    </TouchableOpacity>
+                </View>
+            </TouchableOpacity>
+        );
     };
 
     return (
@@ -87,7 +137,7 @@ function Home ({navigation}: {navigation: any}) {
             />
         </View>
     );
-    };
+};
 
 const styles = StyleSheet.create({
 
@@ -192,6 +242,22 @@ const styles = StyleSheet.create({
         height: '100%',
         borderRadius: 8,
     },
-    });
+    favoriteButton: {
+        position: 'absolute',
+        top: 8,
+        right: 8,
+        width: 32,
+        height: 32,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    favoriteButtonActive: {
+        backgroundColor: 'red', // Altere para a cor desejada quando for marcado como favorito
+    },
+    favoriteIcon: {
+        width: 24,
+        height: 24,
+    },
+});
 
-    export default Home;
+export default Home;
