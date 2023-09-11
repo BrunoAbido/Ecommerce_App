@@ -2,12 +2,12 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, Text } from 'react-native';
+import { ImageSourcePropType } from 'react-native';
 
 import Home from '../Screens/appScreens/Home';
 import Favorites from '../Screens/appScreens/Favorites';
 import Cart from '../Screens/appScreens/Cart';
 import Details from '../Screens/appScreens/Details';
-import { ImageSourcePropType } from 'react-native';
 import Initial from '../Screens/Initial';
 import SignUpScreen from '../Screens/SignUpScreen';
 import SignInScreen from '../Screens/signInScreen';
