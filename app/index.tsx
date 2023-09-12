@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import Navigation from "../app/Navigation/Navigation";
 import { useFonts } from "expo-font";
+import { AppContextProvider } from "../app/Screens/App.context";
 
 
 export default function App() {
@@ -13,10 +14,12 @@ export default function App() {
     }
 
     return (
-        <>
-            <StatusBar backgroundColor='#f4f0ff' style='dark' />
-                <Navigation />
-        </>
+        <AppContextProvider>
+            <>
+                <StatusBar backgroundColor='#f4f0ff' style='dark' />
+                    <Navigation />
+            </>
+        </AppContextProvider>
         );
     }
     

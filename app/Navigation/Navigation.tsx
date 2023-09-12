@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, Text } from 'react-native';
 import { ImageSourcePropType } from 'react-native';
 
+
 import Home from '../Screens/appScreens/Home';
 import Favorites from '../Screens/appScreens/Favorites';
 import Cart from '../Screens/appScreens/Cart';
