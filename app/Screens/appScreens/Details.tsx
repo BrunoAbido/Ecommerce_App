@@ -18,8 +18,6 @@ export function Details({ route, navigation }: DetailsProps) {
   const { itemId, description, image, name, price, category } =
     route.params as any;
 
-  console.log({ itemId, description, image, name, price, category });
-
   const handleAddItem = () => {};
 
   const handleRemoveItem = () => {};

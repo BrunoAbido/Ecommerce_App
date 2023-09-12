@@ -14,10 +14,14 @@ type ItemType = {
 
 function Favorites() {
     const { favoritos, items } = useAppContext(); 
-
+console.log(items)
     const getFavoritosItems = () => {
+        console.log(items)
+       
         return items.filter((item) => favoritos.includes(item.id));
+        
     };
+
 
     const renderItem = ({ item }: { item: ItemType }) => (
         <TouchableOpacity>
@@ -28,15 +32,17 @@ function Favorites() {
             </View>
         </TouchableOpacity>
     );
+    
 
     return (
         <View style={styles.container}>
             <Text style={styles.titleScreen}>Favorites</Text>
             <FlatList
-                data={getFavoritosItems()} 
-                renderItem={renderItem}
-                keyExtractor={(item) => item.id}
-            />
+            data={getFavoritosItems()} 
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+/>
+
         </View>
     );
 }
@@ -44,27 +50,24 @@ function Favorites() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: "center",
         paddingTop: 20,
     },
     titleScreen: {
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: "bold",
-        marginBottom: 16,
+        marginBottom: 24,
+        marginLeft: 24,
     },
     itemContainer: {
-        width: 300,
-        marginBottom: 16,
-        backgroundColor: "white",
+        width: 327,
+        height: 72,
+        marginBottom: 17,
+        marginLeft: 25,
+        backgroundColor: "#ECF8F3",
         borderRadius: 8,
-        shadowColor: "black",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        elevation: 5,
         flexDirection: "column",
         alignItems: "center",
-        padding: 16,
+
     },
     image: {
         width: "100%",

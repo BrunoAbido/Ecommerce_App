@@ -16,7 +16,6 @@ type AppContextType = {
     toggleFavorito: (itemId: string) => void;
     items: ItemType[];
 };
-
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 type AppContextProviderProps = {
@@ -55,6 +54,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
         } else {
             setFavoritos([...favoritos, itemId]);
         }
+
     };
 
     return (

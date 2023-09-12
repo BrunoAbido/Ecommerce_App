@@ -73,6 +73,7 @@ function Home({ navigation }: { navigation: any }) {
 
     const handleFavoritoPress = (itemId: string) => {
         toggleFavorito(itemId);
+
     };
 
     const filterItemsByCategory = (category: string | null) => {
