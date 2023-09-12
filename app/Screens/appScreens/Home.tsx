@@ -1,6 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import {
+    View,
+    Text,
+    FlatList,
+    Image,
+    StyleSheet,
+    TouchableOpacity,
+    ActivityIndicator,
+    ScrollView,
+} from "react-native";
+import axios from "axios";
+import colors from "../../constants/Colors";
 
 type ItemType = {
     id: string;
@@ -15,42 +25,45 @@ type ItemType = {
 function Home({ navigation }: { navigation: any }) {
     const [mostPopular, setMostPopular] = useState<ItemType[]>([]);
     const [allItems, setAllItems] = useState<ItemType[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
     async function fetchData() {
         try {
+        setIsLoading(true);
         const responseMostPopular = await axios.get(
-            'https://8jcox47hg2.execute-api.us-east-2.amazonaws.com/dev/'
+            "https://8jcox47hg2.execute-api.us-east-2.amazonaws.com/dev/"
         );
 
         const { mostPopular } = responseMostPopular.data.body.data;
 
         setMostPopular(mostPopular);
         const responseAllItems = await axios.get(
-            'https://8jcox47hg2.execute-api.us-east-2.amazonaws.com/dev/'
+            "https://8jcox47hg2.execute-api.us-east-2.amazonaws.com/dev/"
         );
 
         const { items } = responseAllItems.data.body.data;
 
         setAllItems(items);
-        } catch (error: any) { 
+        } catch (error: any) {
         if (axios.isAxiosError(error)) {
-            console.error('Erro ao buscar dados da API:', error.message);
+            console.error("Erro ao buscar dados da API:", error.message);
         } else {
-            console.error('Erro desconhecido:', error);
+            console.error("Erro desconhecido:", error);
         }
         }
+        setIsLoading(false);
     }
 
     fetchData();
     }, []);
 
     const handleCardPress = (item: ItemType) => {
-    navigation.navigate('Details', {
+    navigation.navigate("Details", {
         name: item.title,
-        subtitle: '',
         description: item.description,
         image: item.image,
+        category: item.category,
         price: item.price,
     });
     };
@@ -83,8 +96,21 @@ function Home({ navigation }: { navigation: any }) {
     </TouchableOpacity>
     );
 
+    if (isLoading)
     return (
-    <View style={styles.container}>
+        <ActivityIndicator
+        size="large"
+        style={{
+            width: "100%",
+            height: "100%",
+            margin: "auto",
+        }}
+        color={colors.green}
+        />
+    );
+
+    return (
+    <ScrollView style={styles.container}>
         <Text style={styles.Hello}> Hi, Bruno</Text>
         <Text style={styles.title}> Most Popular</Text>
         <FlatList
@@ -101,26 +127,26 @@ function Home({ navigation }: { navigation: any }) {
         keyExtractor={(item) => item.id}
         style={styles.secondFlatList}
         />
-    </View>
+    </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+        container: {
         flex: 1,
         marginLeft: 22,
         marginTop: 0,
-    },
-    Hello: {
+        },
+        Hello: {
         marginLeft: 4,
         marginTop: 39,
         fontSize: 24,
-        fontWeight: 'bold',
+        fontWeight: "bold",
     },
     title: {
         marginLeft: 4,
         fontSize: 20,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         marginTop: 40,
         marginBottom: 24,
     },
@@ -130,81 +156,79 @@ const styles = StyleSheet.create({
         height: 140,
         borderRadius: 8,
         marginRight: 16,
-        marginBottom: 300,
-        backgroundColor: 'white',
-        shadowColor: 'black',
+        marginBottom: 16,
+        backgroundColor: "white",
+        shadowColor: "black",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
         shadowRadius: 4,
         elevation: 5,
-        flexDirection: 'row',
+        flexDirection: "row",
     },
     ImageContainer1: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
     },
     TextContainer1: {
         flex: 1,
-        flexDirection: 'column',
-        alignItems: 'flex-start',
+        flexDirection: "column",
+        alignItems: "flex-start",
         marginLeft: 16,
         paddingTop: 8,
     },
     image1: {
-        width: '100%',
-        height: '100%',
+        width: "100%",
+        height: "100%",
         borderRadius: 8,
     },
     name1: {
         fontSize: 14,
-        fontWeight: 'bold',
+        fontWeight: "bold",
     },
     price1: {
         fontSize: 14,
         marginTop: 8,
-        fontWeight: 'bold',
+        fontWeight: "bold",
     },
-    secondFlatList: {
-
-    },
+    secondFlatList: {},
     itemContainer2: {
         marginLeft: 6,
         width: 327,
         height: 279,
         borderRadius: 8,
         marginBottom: 16,
-        backgroundColor: 'white',
-        shadowColor: 'black',
+        backgroundColor: "white",
+        shadowColor: "black",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
         shadowRadius: 4,
         elevation: 5,
     },
     ImageContainer2: {
-        width: '100%',
+        width: "100%",
         height: 209,
-        alignItems: 'center',
+        alignItems: "center",
     },
     TextContainer2: {
         flex: 1,
-        flexDirection: 'column',
-        alignItems: 'flex-start',
+        flexDirection: "column",
+        alignItems: "flex-start",
         marginLeft: 18,
         paddingTop: 9,
     },
     name2: {
         fontSize: 16,
-        fontWeight: 'bold',
+        fontWeight: "bold",
     },
     price2: {
         fontSize: 14,
         marginTop: 5,
-        fontWeight: 'bold',
+        fontWeight: "bold",
     },
     image2: {
-        width: '100%',
-        height: '100%',
+        width: "100%",
+        height: "100%",
         borderRadius: 8,
     },
 });
