@@ -62,7 +62,7 @@ function Home({ navigation }: { navigation: any }) {
     const handleCardPress = (item: ItemType) => {
         navigation.navigate("Details", {
         name: item.title,
-        subtitle: "",
+        category: item.category,
         description: item.description,
         image: item.image,
         price: item.price,

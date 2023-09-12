@@ -15,10 +15,10 @@ type DetailsProps = {
 };
 
 export function Details({ route, navigation }: DetailsProps) {
-  const { itemId, description, image, name, price, subtitle } =
+  const { itemId, description, image, name, price, category } =
     route.params as any;
 
-  console.log({ itemId, description, image, name, price, subtitle });
+  console.log({ itemId, description, image, name, price, category });
 
   const handleAddItem = () => {};
 
@@ -45,8 +45,8 @@ export function Details({ route, navigation }: DetailsProps) {
         />
       </View>
       <View style={styles.containerText}>
+        <Text style={styles.category}>{category}</Text>
         <Text style={styles.name}>{name}</Text>
-        <Text style={styles.subtitle}>{subtitle}</Text>
         <View style={styles.priceContainer}>
           <Text style={styles.price}>${price}</Text>
           <View style={styles.quantityContainer}>
@@ -106,13 +106,13 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     borderRadius: 8,
   },
-  name: {
+  category: {
     fontSize: 16,
     marginTop: 24,
     marginLeft: 24,
     color: "#969595",
   },
-  subtitle: {
+  name: {
     fontSize: 28,
     marginTop: 16,
     marginLeft: 24,
