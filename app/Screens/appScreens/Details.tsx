@@ -1,7 +1,8 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-
 import { RouteProp } from "@react-navigation/native";
+import { useFavorites } from "../../contexto";
+import { ItemType } from '../../contexto';
 
 type RootStackParamList = {
   Details: {
@@ -15,14 +16,21 @@ type DetailsProps = {
 };
 
 export function Details({ route, navigation }: DetailsProps) {
-  const { itemId, description, image, name, price, category } =
-    route.params as any;
+  const { itemId, description, image, name, price, category } = route.params as any;
 
-  console.log({ itemId, description, image, name, price, category });
+  const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
+  const itemIsFavorite = isFavorite(itemId);
 
-  const handleAddItem = () => {};
-
-  const handleRemoveItem = () => {};
+  const handleAddItem = () => {
+    if (!itemIsFavorite) {
+      addToFavorites({
+        id: itemId, title: name, description, price, category, image,
+        categoryId: ""
+      });
+    } else {
+      removeFromFavorites(itemId);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -31,8 +39,14 @@ export function Details({ route, navigation }: DetailsProps) {
           <Image source={require("../../assets/images/arrow_back_ios.png")} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Details</Text>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image source={require("../../assets/images/favorite_border.png")} />
+        <TouchableOpacity onPress={() => handleAddItem()} style={styles.favoriteButton}>
+          <Image
+            source={itemIsFavorite
+              ? require("../../assets/images/favorite.png")
+              : require("../../assets/images/favorite_border.png")}
+            style={styles.favoriteIcon}
+            resizeMode="cover"
+          />
         </TouchableOpacity>
       </View>
       <View style={styles.containerImage}>
@@ -48,12 +62,8 @@ export function Details({ route, navigation }: DetailsProps) {
         <Text style={styles.category}>{category}</Text>
         <Text style={styles.name}>{name}</Text>
         <View style={styles.priceContainer}>
-          <Text style={styles.price}>${price}</Text>
+          <Text style={styles.price}>${price.toFixed(2)}</Text>
           <View style={styles.quantityContainer}>
-            <TouchableOpacity onPress={handleRemoveItem}>
-              <Image source={require("../../assets/images/Less.png")} />
-            </TouchableOpacity>
-            <Text style={styles.quantityText}>0</Text>
             <TouchableOpacity onPress={handleAddItem}>
               <Image source={require("../../assets/images/Plus.png")} />
             </TouchableOpacity>
@@ -63,7 +73,7 @@ export function Details({ route, navigation }: DetailsProps) {
       </View>
       <View style={styles.footer}>
         <View style={styles.totalContainer}>
-          <Text style={styles.footerText}>Total price </Text>
+          <Text style={styles.footerText}>Total price</Text>
           <Text style={styles.newPrice}>${(price * 0).toFixed(2)}</Text>
         </View>
         <TouchableOpacity onPress={handleAddItem} style={styles.footerButton}>
@@ -174,6 +184,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "white",
     marginTop: 14,
+  },
+  favoriteButton: {
+    width: 32,
+    height: 32,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 16,
+  },
+  favoriteIcon: {
+    width: "100%",
+    height: "100%",
   },
 });
 
