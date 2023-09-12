@@ -75,7 +75,7 @@ const TabNavigator = () => (
     >
         <Tab.Screen name="Home" component={Home} 
         options={{ headerShown: false }} />
-        <Tab.Screen name="Favorites" component={Favorites} 
+        <Tab.Screen name="Favorites" component={Favorites as React.ComponentType} 
         options={{ headerShown: false }} />
         <Tab.Screen name="Cart" component={Cart} 
         options={{ headerShown: false }} />
@@ -93,8 +93,9 @@ const Navigation = () => {
             options={{ headerShown: false }} />
             <Stack.Screen name="Home" component={TabNavigator} 
             options={{ headerShown: false }} />
-        <Stack.Screen name="Details" component={Details as React.ComponentType} 
-        options={{ headerShown: false }} />
+            <Stack.Screen name="Details" component={Details as React.ComponentType} 
+            options={{ headerShown: false }} />
+        
         </Stack.Navigator>
     );
 };

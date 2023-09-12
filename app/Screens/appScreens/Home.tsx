@@ -26,118 +26,177 @@ function Home({ navigation }: { navigation: any }) {
     const [mostPopular, setMostPopular] = useState<ItemType[]>([]);
     const [allItems, setAllItems] = useState<ItemType[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [selectedCategory, setSelectedCategory] = useState<string | null>("All");
 
     useEffect(() => {
-    async function fetchData() {
+        async function fetchData() {
         try {
-        setIsLoading(true);
-        const responseMostPopular = await axios.get(
+            setIsLoading(true);
+            const responseMostPopular = await axios.get(
             "https://8jcox47hg2.execute-api.us-east-2.amazonaws.com/dev/"
-        );
+            );
 
-        const { mostPopular } = responseMostPopular.data.body.data;
+            const { mostPopular } = responseMostPopular.data.body.data;
 
-        setMostPopular(mostPopular);
-        const responseAllItems = await axios.get(
+            setMostPopular(mostPopular);
+            const responseAllItems = await axios.get(
             "https://8jcox47hg2.execute-api.us-east-2.amazonaws.com/dev/"
-        );
+            );
 
-        const { items } = responseAllItems.data.body.data;
+            const { items } = responseAllItems.data.body.data;
 
-        setAllItems(items);
+            setAllItems(items);
         } catch (error: any) {
-        if (axios.isAxiosError(error)) {
+            if (axios.isAxiosError(error)) {
             console.error("Erro ao buscar dados da API:", error.message);
-        } else {
+            } else {
             console.error("Erro desconhecido:", error);
-        }
+            }
         }
         setIsLoading(false);
-    }
+        }
 
-    fetchData();
+        fetchData();
     }, []);
 
     const handleCardPress = (item: ItemType) => {
-    navigation.navigate("Details", {
+        navigation.navigate("Details", {
         name: item.title,
+        subtitle: "",
         description: item.description,
         image: item.image,
-        category: item.category,
         price: item.price,
-    });
+        });
+    };
+
+    const filterItemsByCategory = (category: string | null) => {
+        if (category === "All") {
+        return allItems;
+        } else {
+        return allItems.filter((item) => item.category === category);
+        }
     };
 
     const renderItem = ({ item }: { item: ItemType }) => (
-    <TouchableOpacity onPress={() => handleCardPress(item)}>
+        <TouchableOpacity onPress={() => handleCardPress(item)}>
         <View style={styles.itemContainer1}>
-        <View style={styles.ImageContainer1}>
+            <View style={styles.ImageContainer1}>
             <Image source={{ uri: item.image }} style={styles.image1} />
-        </View>
-        <View style={styles.TextContainer1}>
+            </View>
+            <View style={styles.TextContainer1}>
             <Text style={styles.name1}>{item.title}</Text>
             <Text style={styles.price1}>${item.price.toFixed(2)}</Text>
+            </View>
         </View>
-        </View>
-    </TouchableOpacity>
+        </TouchableOpacity>
     );
 
     const renderItemSecondList = ({ item }: { item: ItemType }) => (
-    <TouchableOpacity onPress={() => handleCardPress(item)}>
+        <TouchableOpacity onPress={() => handleCardPress(item)}>
         <View style={styles.itemContainer2}>
-        <View style={styles.ImageContainer2}>
+            <View style={styles.ImageContainer2}>
             <Image source={{ uri: item.image }} style={styles.image2} />
-        </View>
-        <View style={styles.TextContainer2}>
+            </View>
+            <View style={styles.TextContainer2}>
             <Text style={styles.name2}>{item.title}</Text>
             <Text style={styles.price2}>${item.price.toFixed(2)}</Text>
+            </View>
         </View>
-        </View>
-    </TouchableOpacity>
+        </TouchableOpacity>
     );
 
     if (isLoading)
-    return (
+        return (
         <ActivityIndicator
-        size="large"
-        style={{
+            size="large"
+            style={{
             width: "100%",
             height: "100%",
             margin: "auto",
-        }}
-        color={colors.green}
+            }}
+            color={colors.green}
         />
-    );
+        );
 
     return (
-    <ScrollView style={styles.container}>
+        <ScrollView style={styles.container}>
         <Text style={styles.Hello}> Hi, Bruno</Text>
         <Text style={styles.title}> Most Popular</Text>
         <FlatList
-        data={mostPopular}
-        horizontal
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+            data={mostPopular}
+            horizontal
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
         />
 
-        <Text style={styles.title}> All Items</Text>
+        <View style={styles.categoryButtons}>
+        <TouchableOpacity
+            style={[
+                styles.categoryButton,
+                selectedCategory === "All" && styles.selectedCategoryButton,
+            ]}
+            onPress={() => setSelectedCategory("All")}
+            >
+            <Text
+                style={[
+                styles.categoryButtonText,
+                selectedCategory === "All" && styles.selectedCategoryButtonText,
+                ]}
+            >
+                All
+            </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+            style={[
+                styles.categoryButton,
+                selectedCategory === "Indoor" && styles.selectedCategoryButton,
+            ]}
+            onPress={() => setSelectedCategory("Indoor")}
+            >
+            <Text
+                style={[
+                styles.categoryButtonText,
+                selectedCategory === "Indoor" && styles.selectedCategoryButtonText,
+                ]}
+            >
+                Indoor
+            </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+            style={[
+                styles.categoryButton,
+                selectedCategory === "Outdoor" && styles.selectedCategoryButton,
+            ]}
+            onPress={() => setSelectedCategory("Outdoor")}
+            >
+            <Text
+                style={[
+                styles.categoryButtonText,
+                selectedCategory === "Outdoor" && styles.selectedCategoryButtonText,
+                ]}
+            >
+                Outdoor
+            </Text>
+            </TouchableOpacity>
+
+        </View>
         <FlatList
-        data={allItems}
-        renderItem={renderItemSecondList}
-        keyExtractor={(item) => item.id}
-        style={styles.secondFlatList}
+            data={filterItemsByCategory(selectedCategory)}
+            renderItem={renderItemSecondList}
+            keyExtractor={(item) => item.id}
+            style={styles.secondFlatList}
         />
-    </ScrollView>
+        </ScrollView>
     );
-}
+    }
 
-const styles = StyleSheet.create({
-        container: {
+    const styles = StyleSheet.create({
+    container: {
         flex: 1,
         marginLeft: 22,
         marginTop: 0,
-        },
-        Hello: {
+    },
+    Hello: {
         marginLeft: 4,
         marginTop: 39,
         fontSize: 24,
@@ -230,6 +289,24 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
         borderRadius: 8,
+    },
+    categoryButtons: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        marginTop: 30,
+        marginBottom: 23,
+        marginRight: 129,
+    },
+    categoryButton: {
+    },
+    selectedCategoryButton: {
+    },
+    categoryButtonText: {
+        color: '#969595',
+        fontWeight: "bold",
+    },
+    selectedCategoryButtonText: {
+        color: "black",
     },
 });
 
