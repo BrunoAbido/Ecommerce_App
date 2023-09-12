@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { useFavorites } from "../../contexto";
-import { ItemType } from '../../contexto';
+import { useFavorites } from "../../contextoFavorites";
+import { ItemType } from '../../contextoFavorites';
 
 function Favorites() {
   const { favorites, removeFromFavorites } = useFavorites();
