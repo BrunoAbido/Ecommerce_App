@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../Services/firebaseConfigSignUp';
-import colors from '../constants/Colors';
 
 const SignUp = ({ navigation }: { navigation: any }) => {
     const [email, setEmail] = useState('');
@@ -88,7 +87,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     button: {
-        backgroundColor: colors.green,
+        backgroundColor: 'green',
         width: '100%',
         padding: 16,
         borderRadius: 10,
