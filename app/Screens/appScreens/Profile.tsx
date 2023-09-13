@@ -18,50 +18,56 @@ function Profile({ navigation }: ProfileProps) {
 
     const handleLogout = () => {
         if (confirmLogout) {
-        navigation.navigate('Initial');
+            navigation.navigate('Initial');
         } else {
-        Alert.alert(
-            'Alert',
-            'Do you really want to leave?',
-            [
-            {
-                text: 'Cancel',
-                onPress: () => console.log('Canceled'),
-                style: 'cancel',
-            },
-            {
-                text: 'Confirm',
-                onPress: () => setConfirmLogout(true),
-                style: 'destructive',
-            },
-            ],
-            { cancelable: true }
-        );
+            Alert.alert(
+                'Alert',
+                'Do you really want to leave?',
+                [
+                    {
+                        text: 'Cancel',
+                        onPress: () => console.log('Canceled'),
+                        style: 'cancel',
+                    },
+                    {
+                        text: 'Confirm',
+                        onPress: () => {
+                            setConfirmLogout(true);
+                        
+                            setTimeout(() => {
+                                navigation.navigate('Initial');
+                            }, 200); 
+                        },
+                        style: 'destructive',
+                    },
+                ],
+                { cancelable: true }
+            );
         }
     };
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.container1}>
-            <View>
-            <Image source={user.profileImage} style={styles.profileImage} />
+            <View style={styles.container1}>
+                <View>
+                    <Image source={user.profileImage} style={styles.profileImage} />
+                </View>
+                <View style={styles.userContainer}>
+                    <Text style={styles.userName}>{user.name}</Text>
+                    <Text style={styles.userEmail}>{user.email}</Text>
+                </View>
             </View>
-            <View style={styles.userContainer}>
-            <Text style={styles.userName}>{user.name}</Text>
-            <Text style={styles.userEmail}>{user.email}</Text>
-            </View>
-        </View>
 
-        <View style={styles.line} />
+            <View style={styles.line} />
 
-        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Text style={styles.logoutButtonText}>Exit</Text>
-        </TouchableOpacity>
+            <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+                <Text style={styles.logoutButtonText}>Exit</Text>
+            </TouchableOpacity>
         </ScrollView>
     );
-    }
+}
 
-    const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {},
     container1: {
         flexDirection: 'row',
