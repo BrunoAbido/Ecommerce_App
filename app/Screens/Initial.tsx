@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import colors from '../constants/Colors';
 
 function Initial({navigation} : {navigation: any}) {
     return(
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
     },
     button: {
-        backgroundColor: 'green',
+        backgroundColor: colors.green,
         width: '100%',
         padding: 16,
         borderRadius: 10,

@@ -97,6 +97,8 @@ function Home({ navigation }: { navigation: any }) {
   const handleAddToCart = (item: ItemType) => {
     addToCart(item); 
   };
+  
+
 
   const renderItem = ({ item }: { item: ItemType }) => (
     <TouchableOpacity onPress={() => handleCardPress(item)}>
@@ -178,10 +180,19 @@ function Home({ navigation }: { navigation: any }) {
       />
     );
 
-  return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.Hello}> Hi, Dear</Text>
-      <Text style={styles.title}> Most Popular</Text>
+
+    return (
+      <ScrollView style={styles.container}>
+        <View style={styles.containerTitle}>
+          <Text style={styles.Hello}> Hi, Dear</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.profileButton}>
+      <Image
+        source={require('../../assets/images/profile.png')} 
+        style={styles.profileImage}
+      />
+    </TouchableOpacity>
+        </View>
+        <Text style={styles.title}> Most Popular</Text>
       <FlatList
         data={mostPopular}
         horizontal
@@ -255,8 +266,12 @@ const styles = StyleSheet.create({
     marginLeft: 24,
     marginTop: 0,
   },
-  Hello: {
+  containerTitle: {
+    flexDirection: "row",
     marginTop: 39,
+    justifyContent: "space-between",
+  },
+  Hello: {
     fontSize: 24,
     fontWeight: "bold",
   },
@@ -265,6 +280,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 40,
     marginBottom: 24,
+  },
+  profileButton: {
+    marginRight: 24,
+    marginTop: 5,
+  },
+  profileImage: {
+    height: 30,
+    width: 30,
+
   },
   itemContainer1: {
     width: 287,

@@ -3,6 +3,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, Text } from 'react-native';
 import { ImageSourcePropType } from 'react-native';
+import colors from '../constants/Colors';
+
 
 import Home from '../Screens/appScreens/Home';
 import Favorites from '../Screens/appScreens/Favorites';
@@ -11,7 +13,7 @@ import Details from '../Screens/appScreens/Details';
 import Initial from '../Screens/Initial';
 import SignUpScreen from '../Screens/SignUpScreen';
 import SignInScreen from '../Screens/signInScreen';
-import colors from '../constants/Colors';
+import Profile from '../Screens/appScreens/Profile';
 
 const homeIconFocused = require('../assets/images/Vector.Home.png') as ImageSourcePropType;
 const homeIconUnfocused = require('../assets/images/Vector.Home.png') as ImageSourcePropType;
@@ -21,11 +23,12 @@ const cartIconFocused = require('../assets/images/Vector.Cart.png') as ImageSour
 const cartIconUnfocused = require('../assets/images/Vector.Cart.png') as ImageSourcePropType;
 
 export type RootStackParamList = {
-    Initial: undefined; 
+    Initial: any; 
     SignUpScreen: undefined;
     SignInScreen: undefined;
     Details: undefined;
     Home: undefined;
+    Profile: any;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -88,14 +91,13 @@ const Navigation = () => {
         <Stack.Navigator initialRouteName="Initial">
             <Stack.Screen name="Initial" component={Initial} 
             options={{ headerShown: false }} />
-            <Stack.Screen name="SignUpScreen" component={SignUpScreen} 
-            options={{ headerShown: false }} />
-            <Stack.Screen name="SignInScreen" component={SignInScreen} 
-            options={{ headerShown: false }} />
+            <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+            <Stack.Screen name="SignInScreen" component={SignInScreen} />
             <Stack.Screen name="Home" component={TabNavigator} 
             options={{ headerShown: false }} />
             <Stack.Screen name="Details" component={Details as React.ComponentType} 
             options={{ headerShown: false }} />
+            <Stack.Screen name="Profile" component={Profile} />
         
         </Stack.Navigator>
     );
