@@ -1,258 +1,274 @@
 import React, { useEffect, useState } from "react";
 import {
-    View,
-    Text,
-    FlatList,
-    Image,
-    StyleSheet,
-    TouchableOpacity,
-    ActivityIndicator,
-    ScrollView,
+  View,
+  Text,
+  FlatList,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+  ScrollView,
 } from "react-native";
 import axios from "axios";
 import colors from "../../constants/Colors";
 import { useFavorites } from "../../contextoFavorites";
-import { useCart } from "../../contextCart"; 
+import { useCart } from "../../contextCart";
 
 type ItemType = {
-    id: string;
-    title: string;
-    description: string;
-    price: number;
-    category: string;
-    categoryId: string;
-    image: any;
-    quantity: number
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  category: string;
+  categoryId: string;
+  image: any;
+  quantity: number;
 };
 
-function Home({ navigation }: { navigation: any }) {
-    const [mostPopular, setMostPopular] = useState<ItemType[]>([]);
-    const [allItems, setAllItems] = useState<ItemType[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [selectedCategory, setSelectedCategory] = useState<string | null>("All");
-    const { addToFavorites, favorites, removeFromFavorites } = useFavorites();
-    const { addToCart } = useCart(); 
+function Home({ navigation, route }: { navigation: any; route: any }) {
+  const [mostPopular, setMostPopular] = useState<ItemType[]>([]);
+  const [allItems, setAllItems] = useState<ItemType[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>("All");
+  const { addToFavorites, favorites, removeFromFavorites } = useFavorites();
+  const { addToCart } = useCart();
+  const { userId } = route.params;
 
-    useEffect(() => {
-        async function fetchData() {
-        try {
-            setIsLoading(true);
-            const responseMostPopular = await axios.get(
-            "https://8jcox47hg2.execute-api.us-east-2.amazonaws.com/dev/"
-            );
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setIsLoading(true);
+        const responseMostPopular = await axios.get(
+          "https://8jcox47hg2.execute-api.us-east-2.amazonaws.com/dev/"
+        );
 
         const { mostPopular } = responseMostPopular.data.body.data;
 
         setMostPopular(mostPopular);
         const responseAllItems = await axios.get(
-            "https://8jcox47hg2.execute-api.us-east-2.amazonaws.com/dev/"
+          "https://8jcox47hg2.execute-api.us-east-2.amazonaws.com/dev/"
         );
 
         const { items } = responseAllItems.data.body.data;
 
         setAllItems(items);
-        } catch (error: any) {
-            if (axios.isAxiosError(error)) {
-            console.error("Erro ao buscar dados da API:", error.message);
-            } else {
-            console.error("Erro desconhecido:", error);
-            }
-        }
-        setIsLoading(false);
-        }
-
-        fetchData();
-    }, []);
-
-    const handleCardPress = (item: ItemType) => {
-        navigation.navigate("Details", {
-        name: item.title,
-        category: item.category,
-        description: item.description,
-        image: item.image,
-        price: item.price,
-        });
-    };
-
-    const handleToggleFavorite = (item: ItemType) => {
-        if (isFavorite(item.id)) {
-        removeFromFavorites(item.id);
+      } catch (error: any) {
+        if (axios.isAxiosError(error)) {
+          console.error("Erro ao buscar dados da API:", error.message);
         } else {
-        addToFavorites(item);
+          console.error("Erro desconhecido:", error);
         }
-    };
-
-    const isFavorite = (itemId: string) => {
-        return favorites.some((item) => item.id === itemId);
-    };
-
-    const filterItemsByCategory = (category: string | null) => {
-        if (category === "All") {
-        return allItems;
-        } else {
-        return allItems.filter((item) => item.category === category);
-        }
-    };
-
-    const handleAddToCart = (item: ItemType) => {
-        addToCart(item); 
-    };
-
-    const renderItem = ({ item }: { item: ItemType }) => (
-        <TouchableOpacity onPress={() => handleCardPress(item)}>
-            <View style={styles.itemContainer1}>
-                <View style={styles.ImageContainer1}>
-                    <Image source={{ uri: item.image }} style={styles.image1} />
-                </View>
-                <View style={styles.TextContainer1}>
-                    <Text style={styles.name1}>{item.title}</Text>
-                    <Text style={styles.price1}>${item.price.toFixed(2)}</Text>
-                </View>
-                <TouchableOpacity
-                    onPress={() => handleToggleFavorite(item)}
-                    style={styles.favoriteButton}
-                    >
-                    <View style={styles.favoriteCircle} />
-                    <Image
-                        source={
-                        isFavorite(item.id)
-                            ? require("../../assets/images/favorite.png")
-                            : require("../../assets/images/favorite_border.png")
-                        }
-                        style={styles.favoriteIcon}
-                        resizeMode="cover"
-                    />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => handleAddToCart(item)} style={styles.addToCartButton1}>
-                    <Text style={styles.addToCartButtonText1}>Add to cart</Text>
-                </TouchableOpacity>
-            </View>
-        </TouchableOpacity>
-    );
-
-    const renderItemSecondList = ({ item }: { item: ItemType }) => (
-        <TouchableOpacity onPress={() => handleCardPress(item)}>
-            <View style={styles.itemContainer2}>
-                <View style={styles.ImageContainer2}>
-                    <Image source={{ uri: item.image }} style={styles.image2} />
-                </View>
-                <View style={styles.TextContainer2}>
-                    <Text style={styles.name2}>{item.title}</Text>
-                    <Text style={styles.price2}>${item.price.toFixed(2)}</Text>
-                </View>
-                <TouchableOpacity
-                    onPress={() => handleToggleFavorite(item)}
-                    style={styles.favoriteButton}
-                    >
-                        <View style={styles.favoriteCircle} />
-                        <Image
-                            source={
-                            isFavorite(item.id)
-                                ? require("../../assets/images/favorite.png")
-                                : require("../../assets/images/favorite_border.png")
-                            }
-                            style={styles.favoriteIcon}
-                            resizeMode="cover"
-                        />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => handleAddToCart(item)} style={styles.addToCartButton2}>
-                    <Image
-                        source={require('../../assets/images/shopping_bag.png')}
-                        style={styles.imageCart}
-                    />
-                </TouchableOpacity>
-            </View>
-        </TouchableOpacity>
-    );
-
-    if (isLoading)
-        return (
-        <ActivityIndicator
-            size="large"
-            style={{
-            width: "100%",
-            height: "100%",
-            margin: "auto",
-            }}
-            color={colors.green}
-        />
-        );
-
-    return (
-        <ScrollView style={styles.container}>
-            <Text style={styles.Hello}> Hi, Bruno</Text>
-            <Text style={styles.title}> Most Popular</Text>
-            <FlatList
-                data={mostPopular}
-                horizontal
-                renderItem={renderItem}
-                keyExtractor={(item) => item.id}
-            />
-
-            <View style={styles.categoryButtons}>
-                <TouchableOpacity
-                style={[
-                    styles.categoryButton,
-                    selectedCategory === "All" && styles.selectedCategoryButton,
-                ]}
-                onPress={() => setSelectedCategory("All")}
-                >
-                    <Text
-                        style={[
-                        styles.categoryButtonText,
-                        selectedCategory === "All" && styles.selectedCategoryButtonText,
-                        ]}
-                    >
-                        All
-                    </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                style={[
-                    styles.categoryButton,
-                    selectedCategory === "Indoor" && styles.selectedCategoryButton,
-                ]}
-                onPress={() => setSelectedCategory("Indoor")}
-                >
-                    <Text
-                        style={[
-                        styles.categoryButtonText,
-                        selectedCategory === "Indoor" && styles.selectedCategoryButtonText,
-                        ]}
-                    >
-                        Indoor
-                    </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                style={[
-                    styles.categoryButton,
-                    selectedCategory === "Outdoor" && styles.selectedCategoryButton,
-                ]}
-                onPress={() => setSelectedCategory("Outdoor")}
-                >
-                    <Text
-                        style={[
-                        styles.categoryButtonText,
-                        selectedCategory === "Outdoor" && styles.selectedCategoryButtonText,
-                        ]}
-                    >
-                        Outdoor
-                    </Text>
-                </TouchableOpacity>
-            </View>
-
-            <FlatList
-                data={filterItemsByCategory(selectedCategory)}
-                renderItem={renderItemSecondList}
-                keyExtractor={(item) => item.id}
-                
-            />
-        </ScrollView>
-    );
+      }
+      setIsLoading(false);
     }
+
+    fetchData();
+  }, []);
+
+  const handleCardPress = (item: ItemType) => {
+    navigation.navigate("Details", {
+      name: item.title,
+      category: item.category,
+      description: item.description,
+      image: item.image,
+      price: item.price,
+    });
+  };
+
+  const handleToggleFavorite = (item: ItemType) => {
+    if (isFavorite(item.id)) {
+      removeFromFavorites(item.id);
+    } else {
+      addToFavorites(item);
+    }
+  };
+
+  const isFavorite = (itemId: string) => {
+    return favorites.some((item) => item.id === itemId);
+  };
+
+  const filterItemsByCategory = (category: string | null) => {
+    if (category === "All") {
+      return allItems;
+    } else {
+      return allItems.filter((item) => item.category === category);
+    }
+  };
+
+  const handleAddToCart = (item: ItemType) => {
+    addToCart(item);
+  };
+
+  const renderItem = ({ item }: { item: ItemType }) => (
+    <TouchableOpacity onPress={() => handleCardPress(item)}>
+      <View style={styles.itemContainer1}>
+        <View style={styles.ImageContainer1}>
+          <Image source={{ uri: item.image }} style={styles.image1} />
+        </View>
+        <View style={styles.TextContainer1}>
+          <Text style={styles.name1}>{item.title}</Text>
+          <Text style={styles.price1}>${item.price.toFixed(2)}</Text>
+        </View>
+        <TouchableOpacity
+          onPress={() => handleToggleFavorite(item)}
+          style={styles.favoriteButton}
+        >
+          <View style={styles.favoriteCircle} />
+          <Image
+            source={
+              isFavorite(item.id)
+                ? require("../../assets/images/favorite.png")
+                : require("../../assets/images/favorite_border.png")
+            }
+            style={styles.favoriteIcon}
+            resizeMode="cover"
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => handleAddToCart(item)}
+          style={styles.addToCartButton1}
+        >
+          <Text style={styles.addToCartButtonText1}>Add to cart</Text>
+        </TouchableOpacity>
+      </View>
+    </TouchableOpacity>
+  );
+
+  const renderItemSecondList = ({ item }: { item: ItemType }) => (
+    <TouchableOpacity onPress={() => handleCardPress(item)}>
+      <View style={styles.itemContainer2}>
+        <View style={styles.ImageContainer2}>
+          <Image source={{ uri: item.image }} style={styles.image2} />
+        </View>
+        <View style={styles.TextContainer2}>
+          <Text style={styles.name2}>{item.title}</Text>
+          <Text style={styles.price2}>${item.price.toFixed(2)}</Text>
+        </View>
+        <TouchableOpacity
+          onPress={() => handleToggleFavorite(item)}
+          style={styles.favoriteButton}
+        >
+          <View style={styles.favoriteCircle} />
+          <Image
+            source={
+              isFavorite(item.id)
+                ? require("../../assets/images/favorite.png")
+                : require("../../assets/images/favorite_border.png")
+            }
+            style={styles.favoriteIcon}
+            resizeMode="cover"
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => handleAddToCart(item)}
+          style={styles.addToCartButton2}
+        >
+          <Image
+            source={require("../../assets/images/shopping_bag.png")}
+            style={styles.imageCart}
+          />
+        </TouchableOpacity>
+      </View>
+    </TouchableOpacity>
+  );
+
+  if (isLoading)
+    return (
+      <ActivityIndicator
+        size="large"
+        style={{
+          width: "100%",
+          height: "100%",
+          margin: "auto",
+        }}
+        color={colors.green}
+      />
+    );
+
+  return (
+    <ScrollView style={styles.container}>
+      <Text style={styles.Hello}> Hi, Bruno</Text>
+      <Text style={styles.title}> Most Popular</Text>
+      <FlatList
+        data={mostPopular}
+        horizontal
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+      />
+
+      <View style={styles.categoryButtons}>
+        <TouchableOpacity
+          style={[
+            styles.categoryButton,
+            selectedCategory === "All" && styles.selectedCategoryButton,
+          ]}
+          onPress={() => setSelectedCategory("All")}
+        >
+          <Text
+            style={[
+              styles.categoryButtonText,
+              selectedCategory === "All" && styles.selectedCategoryButtonText,
+            ]}
+          >
+            All
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.categoryButton,
+            selectedCategory === "Indoor" && styles.selectedCategoryButton,
+          ]}
+          onPress={() => setSelectedCategory("Indoor")}
+        >
+          <Text
+            style={[
+              styles.categoryButtonText,
+              selectedCategory === "Indoor" && styles.selectedCategoryButtonText,
+            ]}
+          >
+            Indoor
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.categoryButton,
+            selectedCategory === "Outdoor" && styles.selectedCategoryButton,
+          ]}
+          onPress={() => setSelectedCategory("Outdoor")}
+        >
+          <Text
+            style={[
+              styles.categoryButtonText,
+              selectedCategory === "Outdoor" && styles.selectedCategoryButtonText,
+            ]}
+          >
+            Outdoor
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      <FlatList
+        data={filterItemsByCategory(selectedCategory)}
+        renderItem={renderItemSecondList}
+        keyExtractor={(item) => item.id}
+      />
+
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("ProfileScreen", {
+            userId: userId,
+          })
+        }
+      >
+        <Text>Go to Profile</Text>
+      </TouchableOpacity>
+    </ScrollView>
+  );
+}
 
     const styles = StyleSheet.create({
     container: {

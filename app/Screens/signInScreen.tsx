@@ -18,7 +18,6 @@ const SignInScreen = ( {navigation} : {navigation: any}) => {
                 navigation.navigate('Home', { userId: user.uid });
             })
             .catch((error) => {
-                const errorCode = error.code;
                 const errorMessage = error.message;
                 console.error('Erro ao autenticar:', errorMessage);
                 

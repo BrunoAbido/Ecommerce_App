@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, Text } from 'react-native';
 import { ImageSourcePropType } from 'react-native';
+import colors from '../constants/Colors';
 
 import Home from '../Screens/appScreens/Home';
 import Favorites from '../Screens/appScreens/Favorites';
@@ -11,7 +12,8 @@ import Details from '../Screens/appScreens/Details';
 import Initial from '../Screens/Initial';
 import SignUpScreen from '../Screens/SignUpScreen';
 import SignInScreen from '../Screens/signInScreen';
-import colors from '../constants/Colors';
+import ProfileScreen from '../Screens/appScreens/ProfileScreen'
+
 
 const homeIconFocused = require('../assets/images/Vector.Home.png') as ImageSourcePropType;
 const homeIconUnfocused = require('../assets/images/Vector.Home.png') as ImageSourcePropType;
@@ -26,6 +28,7 @@ export type RootStackParamList = {
     SignInScreen: undefined;
     Details: undefined;
     Home: undefined;
+    ProfileScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -95,6 +98,8 @@ const Navigation = () => {
             <Stack.Screen name="Home" component={TabNavigator} 
             options={{ headerShown: false }} />
             <Stack.Screen name="Details" component={Details as React.ComponentType} 
+            options={{ headerShown: false }} />
+            <Stack.Screen name="ProfileScreen" component={ProfileScreen} 
             options={{ headerShown: false }} />
         
         </Stack.Navigator>
