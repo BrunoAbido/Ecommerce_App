@@ -11,11 +11,12 @@ import Details from '../Screens/appScreens/Details';
 import Initial from '../Screens/Initial';
 import SignUpScreen from '../Screens/SignUpScreen';
 import SignInScreen from '../Screens/signInScreen';
+import colors from '../constants/Colors';
 
 const homeIconFocused = require('../assets/images/Vector.Home.png') as ImageSourcePropType;
 const homeIconUnfocused = require('../assets/images/Vector.Home.png') as ImageSourcePropType;
-const favoritesIconFocused = require('../assets/images/Vector.Favorites.png') as ImageSourcePropType;
-const favoritesIconUnfocused = require('../assets/images/Vector.Favorites.png') as ImageSourcePropType;
+const favoritesIconFocused = require('../assets/images/favorite_border.png') as ImageSourcePropType;
+const favoritesIconUnfocused = require('../assets/images/favorite_border.png') as ImageSourcePropType;
 const cartIconFocused = require('../assets/images/Vector.Cart.png') as ImageSourcePropType;
 const cartIconUnfocused = require('../assets/images/Vector.Cart.png') as ImageSourcePropType;
 
@@ -59,13 +60,13 @@ const TabNavigator = () => (
                                 height: 25,
                                 justifyContent: 'center',
                                 marginTop: 20, 
-                                tintColor: focused ? 'green' : 'gray' }}
+                                tintColor: focused ? colors.green : 'gray' }}
                             />
                         )}
                             <Text style={{
                                 height: 14,
                                 marginTop: 2,
-                                color: focused ? 'green' : 'gray' }} >
+                                color: focused ? colors.green : 'gray' }} >
                                 {labelText}
                                 </Text>
                     </React.Fragment>

@@ -17,6 +17,7 @@ function Favorites() {
         onPress={() => removeFromFavorites(item.id)}
         style={styles.favoriteButton}
       >
+        <View style={styles.favoriteCircle} />
         <Image
           source={require("../../assets/images/favorite.png")} 
           style={styles.favoriteIcon}
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginLeft: 24,
-    marginTop: 20,
+    marginTop: 39,
   },
   title: {
     fontSize: 24,
@@ -88,15 +89,31 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginLeft: 16, 
   },
-  favoriteIcon: {
-    width: "100%",
-    height: "100%",
-  },
+  
   noFavoritesText: {
     fontSize: 16,
     textAlign: "center",
     marginTop: 20,
   },
+  favoriteIcon: {
+    width: 16,
+    height: 16,
+    position: "absolute",
+    zIndex: 1,
+},
+favoriteCircle: {
+    width: 30,
+    height: 30,
+    borderRadius: 18,
+    backgroundColor: "white",
+    position: "absolute",
+    zIndex: 0,
+    shadowColor: 'black', 
+    shadowOffset: { width: 0, height: 2 }, 
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+},
+
 });
 
 export default Favorites;

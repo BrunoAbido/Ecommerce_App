@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { useFavorites } from "../../contextoFavorites";
 import { useCart } from "../../contextCart";
+import colors from "../../constants/Colors";
 
 type RootStackParamList = {
   Details: {
@@ -142,6 +143,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderBottomWidth: 1,
     borderBottomColor: "#dddddd",
+    height: 98,
   },
   headerTitle: {
     fontSize: 14,
@@ -206,7 +208,7 @@ const styles = StyleSheet.create({
     color: "#969595",
   },
   footer: {
-    height: 70,
+    height: 92,
     flexDirection: "row",
     justifyContent: "space-between",
     backgroundColor: "#ffffff",
@@ -219,7 +221,7 @@ const styles = StyleSheet.create({
   },
   footerButton: {
     borderRadius: 8,
-    backgroundColor: "green",
+    backgroundColor: colors.green,
     width: 114,
     height: 48,
     marginTop: 16,

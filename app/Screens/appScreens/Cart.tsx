@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useCart } from '../../contextCart';
 import { CartItemType } from '../../contextCart';
+import colors from '../../constants/Colors';
 
 function CartPage() {
   const { cartItems, removeFromCart, updateQuantity } = useCart();
@@ -16,7 +17,8 @@ function CartPage() {
       <View style={styles.itemInfo}>
         <Text style={styles.itemTitle}>{item.title}</Text>
         <Text style={styles.itemPrice}>${item.price.toFixed(2)}</Text>
-        <View style={styles.quantityContainer}>
+      </View>
+      <View style={styles.quantityContainer}>
           <TouchableOpacity
             onPress={() => {
               if (item.quantity > 1) {
@@ -35,7 +37,6 @@ function CartPage() {
             <Image source={require('../../assets/images/Plus.png')} style={styles.quantityIcon} />
           </TouchableOpacity>
         </View>
-      </View>
     </View>
   );
 
@@ -51,6 +52,9 @@ function CartPage() {
         <Text style={styles.subtotalText}>Subtotal:</Text>
         <Text style={styles.subtotalAmount}>${subtotal.toFixed(2)}</Text>
       </View>
+      <TouchableOpacity style={styles.buttonCheckout}>
+          <Text style={styles.buttonCheckoutText}>Go to Checkout</Text>
+        </TouchableOpacity>
     </View>
   );
 }
@@ -58,59 +62,89 @@ function CartPage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 24,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 16,
+    marginBottom: 24,
+    marginTop: 14,
   },
   itemContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    backgroundColor: '#ECF8F3',
+    borderRadius: 8,
+    width: 327,
+    height: 72,
+    marginBottom: 17,
   },
+  
   itemImage: {
-    width: 80,
-    height: 80,
+    width: 91,
+    height: 72,
     borderRadius: 8,
   },
+  
   itemInfo: {
     flex: 1,
     marginLeft: 12,
+    justifyContent: 'center',
   },
+  
   itemTitle: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
+    marginBottom: 8,
   },
+  
   itemPrice: {
     fontSize: 14,
-    color: 'gray',
-  },
-  quantityContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  quantityText: {
-    fontSize: 16,
-    marginHorizontal: 8,
-  },
-  quantityIcon: {
-    width: 24,
-    height: 24,
-  },
-  subtotalContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 16,
-  },
-  subtotalText: {
-    fontSize: 20,
     fontWeight: 'bold',
   },
+  
+  quantityContainer: {
+    flexDirection: 'row',
+    marginRight: 13, 
+  },
+  quantityText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginHorizontal: 16,
+  },
+  quantityIcon: {
+    width: 20,
+    height: 20,
+  },
+  subtotalContainer: {
+    width: 324,
+    height: 30,
+    marginBottom: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: '#ECF8F3',
+  },
+  subtotalText: {
+    fontSize: 14,
+    padding: 8,
+  },
   subtotalAmount: {
-    fontSize: 20,
+    fontSize: 14,
+    padding: 8,
+    fontWeight: 'bold'
+  },
+  buttonCheckout: {
+    width: 327,
+    height: 48,
+    borderRadius: 8,
+    backgroundColor: colors.green,
+    marginBottom: 29,
+  },
+  buttonCheckoutText: {
+    textAlign: 'center',
+    padding: 14,
+    color: 'white',
+    fontSize: 16,
   },
 });
 

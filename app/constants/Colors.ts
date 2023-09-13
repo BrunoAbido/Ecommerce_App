@@ -5,7 +5,7 @@ const colors = {
   strongWhite: "#4f4f54",
   white: "#ffffff",
   yellow: "#ffc107",
-  red: '#e73030'
+  red: '#e73030',
 };
 
 export default colors;
