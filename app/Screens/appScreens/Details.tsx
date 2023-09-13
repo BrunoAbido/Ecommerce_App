@@ -19,11 +19,10 @@ export function Details({ route, navigation }: DetailsProps) {
   const { itemId, description, image, name, price, category } = route.params as any;
 
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
-  const [itemQuantity, setItemQuantity] = useState(1); // Inicie com 1 item
+  const [itemQuantity, setItemQuantity] = useState(1);
   const { addToCart } = useCart();
 
   useEffect(() => {
-    // Atualize o newPrice sempre que a quantidade do item mudar
     const newPrice = price * itemQuantity;
     navigation.setParams({ newPrice });
   }, [itemQuantity, price, navigation]);
@@ -127,8 +126,6 @@ export function Details({ route, navigation }: DetailsProps) {
     </View>
   );
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
