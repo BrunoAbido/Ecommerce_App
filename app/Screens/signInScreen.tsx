@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import colors from '../constants/Colors';
 
 const SignInScreen = ( {navigation} : {navigation: any}) => {
     const [email, setEmail] = useState('');
@@ -18,6 +17,7 @@ const SignInScreen = ( {navigation} : {navigation: any}) => {
                 navigation.navigate('Home', { userId: user.uid });
             })
             .catch((error) => {
+                const errorCode = error.code;
                 const errorMessage = error.message;
                 console.error('Erro ao autenticar:', errorMessage);
                 
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     button: {
-        backgroundColor: colors.green,
+        backgroundColor: 'green',
         width: '100%',
         padding: 16,
         borderRadius: 10,

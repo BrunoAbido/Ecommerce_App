@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, Text } from 'react-native';
 import { ImageSourcePropType } from 'react-native';
-import colors from '../constants/Colors';
 
 import Home from '../Screens/appScreens/Home';
 import Favorites from '../Screens/appScreens/Favorites';
@@ -12,13 +11,11 @@ import Details from '../Screens/appScreens/Details';
 import Initial from '../Screens/Initial';
 import SignUpScreen from '../Screens/SignUpScreen';
 import SignInScreen from '../Screens/signInScreen';
-import ProfileScreen from '../Screens/appScreens/ProfileScreen'
-
 
 const homeIconFocused = require('../assets/images/Vector.Home.png') as ImageSourcePropType;
 const homeIconUnfocused = require('../assets/images/Vector.Home.png') as ImageSourcePropType;
-const favoritesIconFocused = require('../assets/images/favorite_border.png') as ImageSourcePropType;
-const favoritesIconUnfocused = require('../assets/images/favorite_border.png') as ImageSourcePropType;
+const favoritesIconFocused = require('../assets/images/Vector.Favorites.png') as ImageSourcePropType;
+const favoritesIconUnfocused = require('../assets/images/Vector.Favorites.png') as ImageSourcePropType;
 const cartIconFocused = require('../assets/images/Vector.Cart.png') as ImageSourcePropType;
 const cartIconUnfocused = require('../assets/images/Vector.Cart.png') as ImageSourcePropType;
 
@@ -28,7 +25,6 @@ export type RootStackParamList = {
     SignInScreen: undefined;
     Details: undefined;
     Home: undefined;
-    ProfileScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -63,13 +59,13 @@ const TabNavigator = () => (
                                 height: 25,
                                 justifyContent: 'center',
                                 marginTop: 20, 
-                                tintColor: focused ? colors.green : 'gray' }}
+                                tintColor: focused ? 'green' : 'gray' }}
                             />
                         )}
                             <Text style={{
                                 height: 14,
                                 marginTop: 2,
-                                color: focused ? colors.green : 'gray' }} >
+                                color: focused ? 'green' : 'gray' }} >
                                 {labelText}
                                 </Text>
                     </React.Fragment>
@@ -98,8 +94,6 @@ const Navigation = () => {
             <Stack.Screen name="Home" component={TabNavigator} 
             options={{ headerShown: false }} />
             <Stack.Screen name="Details" component={Details as React.ComponentType} 
-            options={{ headerShown: false }} />
-            <Stack.Screen name="ProfileScreen" component={ProfileScreen} 
             options={{ headerShown: false }} />
         
         </Stack.Navigator>

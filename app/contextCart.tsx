@@ -1,3 +1,4 @@
+// contextCart.tsx
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 export type CartItemType = {
@@ -8,7 +9,7 @@ export type CartItemType = {
   category: string;
   categoryId: string;
   image: any;
-  quantity: number; 
+  quantity: number; // Adicione a propriedade 'quantity'
 };
 
 type CartContextType = {

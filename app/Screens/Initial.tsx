@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import colors from '../constants/Colors';
 
 function Initial({navigation} : {navigation: any}) {
     return(
@@ -30,6 +29,7 @@ const styles = StyleSheet.create({
     image: {
         width: '100%',
         height: '100%',
+        marginTop: -4,
     },
     content: {
         padding: 24,
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
     },
     button: {
-        backgroundColor: colors.green,
+        backgroundColor: 'green',
         width: '100%',
         padding: 16,
         borderRadius: 10,

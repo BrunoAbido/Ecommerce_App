@@ -12,7 +12,7 @@ import {
 import axios from "axios";
 import colors from "../../constants/Colors";
 import { useFavorites } from "../../contextoFavorites";
-import { useCart } from "../../contextCart";
+import { useCart } from "../../contextCart"; 
 
 type ItemType = {
   id: string;
@@ -22,17 +22,16 @@ type ItemType = {
   category: string;
   categoryId: string;
   image: any;
-  quantity: number;
+  quantity: number
 };
 
-function Home({ navigation, route }: { navigation: any; route: any }) {
+function Home({ navigation }: { navigation: any }) {
   const [mostPopular, setMostPopular] = useState<ItemType[]>([]);
   const [allItems, setAllItems] = useState<ItemType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [selectedCategory, setSelectedCategory] = useState<string | null>("All");
   const { addToFavorites, favorites, removeFromFavorites } = useFavorites();
-  const { addToCart } = useCart();
-  const { userId } = route.params;
+  const { addToCart } = useCart(); 
 
   useEffect(() => {
     async function fetchData() {
@@ -96,7 +95,7 @@ function Home({ navigation, route }: { navigation: any; route: any }) {
   };
 
   const handleAddToCart = (item: ItemType) => {
-    addToCart(item);
+    addToCart(item); 
   };
 
   const renderItem = ({ item }: { item: ItemType }) => (
@@ -124,11 +123,7 @@ function Home({ navigation, route }: { navigation: any; route: any }) {
             resizeMode="cover"
           />
         </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => handleAddToCart(item)}
-          style={styles.addToCartButton1}
-        >
+        <TouchableOpacity onPress={() => handleAddToCart(item)} style={styles.addToCartButton1}>
           <Text style={styles.addToCartButtonText1}>Add to cart</Text>
         </TouchableOpacity>
       </View>
@@ -160,15 +155,11 @@ function Home({ navigation, route }: { navigation: any; route: any }) {
             resizeMode="cover"
           />
         </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => handleAddToCart(item)}
-          style={styles.addToCartButton2}
-        >
-          <Image
-            source={require("../../assets/images/shopping_bag.png")}
+        <TouchableOpacity onPress={() => handleAddToCart(item)} style={styles.addToCartButton2}>
+        <Image
+            source={require('../../assets/images/shopping_bag.png')}
             style={styles.imageCart}
-          />
+        />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
@@ -215,7 +206,6 @@ function Home({ navigation, route }: { navigation: any; route: any }) {
             All
           </Text>
         </TouchableOpacity>
-
         <TouchableOpacity
           style={[
             styles.categoryButton,
@@ -232,7 +222,6 @@ function Home({ navigation, route }: { navigation: any; route: any }) {
             Indoor
           </Text>
         </TouchableOpacity>
-
         <TouchableOpacity
           style={[
             styles.categoryButton,
@@ -250,198 +239,186 @@ function Home({ navigation, route }: { navigation: any; route: any }) {
           </Text>
         </TouchableOpacity>
       </View>
-
       <FlatList
         data={filterItemsByCategory(selectedCategory)}
         renderItem={renderItemSecondList}
         keyExtractor={(item) => item.id}
+        style={styles.secondFlatList}
       />
-
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate("ProfileScreen", {
-            userId: userId,
-          })
-        }
-      >
-        <Text>Go to Profile</Text>
-      </TouchableOpacity>
     </ScrollView>
   );
 }
 
-    const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: 39,
-        marginLeft: 24,
-    },
-    Hello: {
-        fontSize: 24,
-        fontWeight: "bold",
-    },
-    title: {
-        fontSize: 20,
-        fontWeight: "bold",
-        marginTop: 40,
-        marginBottom: 24,
-    },
-    itemContainer1: {
-        width: 287,
-        height: 140,
-        borderRadius: 8,
-        marginRight: 16,
-        marginBottom: 16,
-        backgroundColor: "white",
-        shadowColor: "black",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        elevation: 5,
-        flexDirection: "row",
-    },
-    itemContainer2: {
-        width: 327,
-        height: 279,
-        borderRadius: 8,
-        marginBottom: 16,
-        backgroundColor: "white",
-        shadowColor: "black",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        elevation: 5,
-    },
-    ImageContainer1: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    ImageContainer2: {
-        width: "100%",
-        height: 209,
-        alignItems: "center",
-    },
-    TextContainer1: {
-        flex: 1,
-        flexDirection: "column",
-        alignItems: "flex-start",
-        marginLeft: 16,
-        paddingTop: 8,
-    },
-    TextContainer2: {
-        flex: 1,
-        flexDirection: "column",
-        alignItems: "flex-start",
-        marginLeft: 18,
-        paddingTop: 9,
-    },
-    image1: {
-        width: "100%",
-        height: "100%",
-        borderRadius: 8,
-    },
-    image2: {
-        width: "100%",
-        height: "100%",
-    },
-    name1: {
-        fontSize: 14,
-        fontWeight: "bold",
-    },
-    name2: {
-        fontSize: 16,
-        fontWeight: "bold",
-    },
-    price1: {
-        fontSize: 14,
-        marginTop: 8,
-        fontWeight: "bold",
-    },
-    price2: {
-        fontSize: 14,
-        marginTop: 5,
-    },
-    favoriteButton: {
-        position: "absolute",
-        top: 8,
-        left: 8,
-        width: 24,
-        height: 24,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    favoriteIcon: {
-        width: 16,
-        height: 16,
-        position: "absolute",
-        zIndex: 1,
-    },
-    favoriteCircle: {
-        width: 30,
-        height: 30,
-        borderRadius: 18,
-        backgroundColor: "white",
-        position: "absolute",
-        zIndex: 0,
-        shadowColor: 'black', 
-        shadowOffset: { width: 0, height: 2 }, 
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-    },
-    categoryButtons: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        marginTop: 30,
-        marginBottom: 23,
-        marginRight: 129,
-    },
-    categoryButton: {
-        fontSize: 16,
-        
-    },
-    selectedCategoryButton: {
-        
-    },
-    categoryButtonText: {
-        color: "#969595",
-        fontWeight: "bold",
-    },
-    selectedCategoryButtonText: {
-        color: "black",
-    },
-    addToCartButton1: {
-        position: "absolute",
-        bottom: 8,
-        right: 8,
-        width: 121,
-        height: 20,
-        borderRadius: 8,
-        backgroundColor: colors.green,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    addToCartButtonText1: {
-        color: "white",
-        fontSize: 12,
-        fontWeight: "bold",
-    },
-    imageCart: {
-        width: 16,
-        height: 16,
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginLeft: 22,
+    marginTop: 0,
+  },
+  Hello: {
+    marginLeft: 4,
+    marginTop: 39,
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  title: {
+    marginLeft: 4,
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 40,
+    marginBottom: 24,
+  },
+  itemContainer1: {
+    marginLeft: 6,
+    width: 287,
+    height: 140,
+    borderRadius: 8,
+    marginRight: 16,
+    marginBottom: 16,
+    backgroundColor: "white",
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+    flexDirection: "row",
+  },
+  itemContainer2: {
+    marginLeft: 6,
+    width: 327,
+    height: 279,
+    borderRadius: 8,
+    marginBottom: 16,
+    backgroundColor: "white",
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  ImageContainer1: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  ImageContainer2: {
+    width: "100%",
+    height: 209,
+    alignItems: "center",
+  },
+  TextContainer1: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "flex-start",
+    marginLeft: 16,
+    paddingTop: 8,
+  },
+  TextContainer2: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "flex-start",
+    marginLeft: 18,
+    paddingTop: 9,
+  },
+  image1: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 8,
+  },
+  image2: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 8,
+  },
+  name1: {
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  name2: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  price1: {
+    fontSize: 14,
+    marginTop: 8,
+    fontWeight: "bold",
+  },
+  price2: {
+    fontSize: 14,
+    marginTop: 5,
+    fontWeight: "bold",
+  },
+  favoriteButton: {
+    position: "absolute",
+    top: 8,
+    left: 8,
+    width: 24,
+    height: 24,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  favoriteIcon: {
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+    zIndex: 1,
+  },
+  favoriteCircle: {
+    width: 30,
+    height: 30,
+    borderRadius: 18,
+    backgroundColor: "white",
+    position: "absolute",
+    zIndex: 0,
+  },
+  categoryButtons: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 30,
+    marginBottom: 23,
+    marginRight: 129,
+  },
+  categoryButton: {},
+  selectedCategoryButton: {},
+  categoryButtonText: {
+    color: "#969595",
+    fontWeight: "bold",
+  },
+  selectedCategoryButtonText: {
+    color: "black",
+  },
+  secondFlatList: {},
 
-    },
-    addToCartButton2: {
-        position: "absolute",
-        bottom: 8,
-        right: 8,
-        width: 30,
-        height: 30,
-        borderRadius: 15,
-        backgroundColor: colors.green,
-        justifyContent: "center",
-        alignItems: "center",
-    },
+  addToCartButton1: {
+    position: "absolute",
+    bottom: 8,
+    right: 8,
+    width: 121,
+    height: 20,
+    borderRadius: 8,
+    backgroundColor: colors.green,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  addToCartButtonText1: {
+    color: "white",
+    fontSize: 12,
+    fontWeight: "bold",
+  },
+  imageCart: {
+
+  },
+  addToCartButton2: {
+    position: "absolute",
+    bottom: 8,
+    right: 8,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: colors.green,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 
 export default Home;
