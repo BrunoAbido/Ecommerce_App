@@ -91,8 +91,10 @@ const Navigation = () => {
         <Stack.Navigator initialRouteName="Initial">
             <Stack.Screen name="Initial" component={Initial} 
             options={{ headerShown: false }} />
-            <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-            <Stack.Screen name="SignInScreen" component={SignInScreen} />
+            <Stack.Screen name="SignUpScreen" component={SignUpScreen}
+            options={{ headerShown: false }} />
+            <Stack.Screen name="SignInScreen" component={SignInScreen} 
+            options={{ headerShown: false }} />
             <Stack.Screen name="Home" component={TabNavigator} 
             options={{ headerShown: false }} />
             <Stack.Screen name="Details" component={Details as React.ComponentType} 

@@ -3,14 +3,14 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import colors from '../constants/Colors';
 
-const SignInScreen = ( {navigation} : {navigation: any}) => {
+const SignInScreen = ({ navigation }: { navigation: any }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleSignIn = () => {
         const auth = getAuth();
-        
+
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
@@ -21,26 +21,30 @@ const SignInScreen = ( {navigation} : {navigation: any}) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 console.error('Erro ao autenticar:', errorMessage);
-                
+
                 setErrorMessage(errorMessage);
             });
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Sign In</Text>
+            <View style={styles.header}>
+                <Text style={styles.title}>Sign In</Text>
+            </View>
             {errorMessage !== '' && (
                 <Text style={styles.errorText}>{errorMessage}</Text>
             )}
+            <Text style={styles.inputLabel}>Email</Text>
             <TextInput
                 style={styles.input}
-                placeholder="Email"
+                placeholder="Enter your email"
                 onChangeText={(text) => setEmail(text)}
                 value={email}
             />
+            <Text style={styles.inputLabel}>Password</Text>
             <TextInput
                 style={styles.input}
-                placeholder="Password"
+                placeholder="Enter your password"
                 secureTextEntry
                 onChangeText={(text) => setPassword(text)}
                 value={password}
@@ -49,8 +53,8 @@ const SignInScreen = ( {navigation} : {navigation: any}) => {
                 <Text style={styles.buttonText}>Sign In</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.buttonToSignIn} onPress={() => navigation.replace('SignUpScreen')}>
-                <Text style={styles.buttonToSignInText}>I dont have an account</Text>
+            <TouchableOpacity style={styles.buttonToSignUp} onPress={() => navigation.replace('SignUpScreen')}>
+                <Text style={styles.buttonToSignInText}>I don't have an account</Text>
             </TouchableOpacity>
         </View>
     );
@@ -59,20 +63,29 @@ const SignInScreen = ( {navigation} : {navigation: any}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        padding: 24,
+    },
+    header: {
         alignItems: 'center',
-        padding: 20,
+        marginTop: 10,
+        marginBottom: 100,
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 20,
+    },
+    inputLabel: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 5,
+        borderRadius: 10,
     },
     input: {
         width: '100%',
         height: 40,
         borderColor: 'gray',
         borderWidth: 1,
+        borderRadius: 8,
         marginBottom: 10,
         padding: 10,
     },
@@ -94,9 +107,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginBottom: 10,
     },
-    buttonToSignIn: {
+    buttonToSignUp: {
         backgroundColor: "white",
-        width: '500%',
+        width: '100%',
         padding: 30,
         borderRadius: 10,
         alignItems: 'center',
@@ -104,7 +117,7 @@ const styles = StyleSheet.create({
     },
     buttonToSignInText: {
         color: 'black',
-        fontSize: 10,
+        fontSize: 12,
         fontWeight: 'bold',
     }
 });
