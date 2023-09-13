@@ -180,7 +180,7 @@ function Home({ navigation }: { navigation: any }) {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.Hello}> Hi, Bruno</Text>
+      <Text style={styles.Hello}> Hi, Dear</Text>
       <Text style={styles.title}> Most Popular</Text>
       <FlatList
         data={mostPopular}
@@ -252,24 +252,21 @@ function Home({ navigation }: { navigation: any }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginLeft: 22,
+    marginLeft: 24,
     marginTop: 0,
   },
   Hello: {
-    marginLeft: 4,
     marginTop: 39,
     fontSize: 24,
     fontWeight: "bold",
   },
   title: {
-    marginLeft: 4,
     fontSize: 20,
     fontWeight: "bold",
     marginTop: 40,
     marginBottom: 24,
   },
   itemContainer1: {
-    marginLeft: 6,
     width: 287,
     height: 140,
     borderRadius: 8,
@@ -284,7 +281,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   itemContainer2: {
-    marginLeft: 6,
     width: 327,
     height: 279,
     borderRadius: 8,
@@ -328,8 +324,7 @@ const styles = StyleSheet.create({
   image2: {
     width: "100%",
     height: "100%",
-    borderRadius: 8,
-  },
+    },
   name1: {
     fontSize: 14,
     fontWeight: "bold",
@@ -352,14 +347,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 8,
     left: 8,
-    width: 24,
-    height: 24,
+    width: 30,
+    height: 30,
     justifyContent: "center",
     alignItems: "center",
   },
   favoriteIcon: {
-    width: "100%",
-    height: "100%",
+    width: 16,
+    height: 16,
     position: "absolute",
     zIndex: 1,
   },
@@ -373,7 +368,7 @@ const styles = StyleSheet.create({
   },
   categoryButtons: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     marginTop: 30,
     marginBottom: 23,
     marginRight: 129,

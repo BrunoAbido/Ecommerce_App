@@ -56,7 +56,9 @@ export function Details({ route, navigation }: DetailsProps) {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image source={require("../../assets/images/arrow_back_ios.png")} />
+          <Image source={require("../../assets/images/arrow_back_ios.png")} 
+          style={styles.arrowBack}
+          />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Details</Text>
         <TouchableOpacity
@@ -139,6 +141,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderBottomWidth: 1,
     borderBottomColor: "#dddddd",
+  },
+  arrowBack: {
+    width: 26,
+    height: 26,
   },
   headerTitle: {
     fontSize: 14,
@@ -236,8 +242,8 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   favoriteIcon: {
-    width: "100%",
-    height: "100%",
+    width: 25,
+    height: 25,
   },
 });
 

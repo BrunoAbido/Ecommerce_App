@@ -17,6 +17,7 @@ function Favorites() {
         onPress={() => removeFromFavorites(item.id)}
         style={styles.favoriteButton}
       >
+        <View style={styles.favoriteCircle} />
         <Image
           source={require("../../assets/images/favorite.png")} 
           style={styles.favoriteIcon}
@@ -45,8 +46,8 @@ function Favorites() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginLeft: 24,
-    marginTop: 20,
+    padding: 24,
+
   },
   title: {
     fontSize: 24,
@@ -56,8 +57,6 @@ const styles = StyleSheet.create({
   itemContainer: {
     flexDirection: "row",
     marginBottom: 16,
-    width: 327,
-    height: 72,
     borderRadius: 8,
     backgroundColor: '#ECF8F3',
     alignItems: "center",
@@ -82,15 +81,23 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   favoriteButton: {
-    width: 32,
-    height: 32,
+    width: 40,
+    height: 40,
     justifyContent: "center",
-    alignItems: "center",
-    marginLeft: 16, 
+    alignItems: "center", 
   },
+  favoriteCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "white",
+    position: "absolute",
+    zIndex: 0,
+  },
+
   favoriteIcon: {
-    width: "100%",
-    height: "100%",
+    width: 20,
+    height: 20,
   },
   noFavoritesText: {
     fontSize: 16,
