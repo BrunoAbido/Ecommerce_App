@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { useCart } from '../../api/contextCart';
-import { CartItemType } from '../../api/contextCart';
+import { useCart } from '../../contextCart';
+import { CartItemType } from '../../contextCart';
 
 function CartPage() {
   const { cartItems, removeFromCart, updateQuantity } = useCart();
 
-  // Calcula o subtotal dos itens no carrinho
   const subtotal = useMemo(() => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   }, [cartItems]);

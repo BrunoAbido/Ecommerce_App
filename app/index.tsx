@@ -3,7 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import Navigation from "../app/Navigation/Navigation";
 import { useFonts } from "expo-font";
 import { FavoritesProvider } from "./contextoFavorites";
-import { CartProvider } from "../app/api/contextCart";
+import { CartProvider } from "./contextCart";
 
 export default function App() {
   const [fontsLoaded] = useFonts({

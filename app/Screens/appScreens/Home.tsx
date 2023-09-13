@@ -12,7 +12,7 @@ import {
 import axios from "axios";
 import colors from "../../constants/Colors";
 import { useFavorites } from "../../contextoFavorites";
-import { useCart } from "../../api/contextCart"; 
+import { useCart } from "../../contextCart"; 
 
 type ItemType = {
   id: string;

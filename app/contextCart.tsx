@@ -29,13 +29,11 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   const [cartItems, setCartItems] = useState<CartItemType[]>([]);
 
   const addToCart = (item: CartItemType) => {
-    // Verifique se o item já está no carrinho
     const existingItem = cartItems.find((cartItem) => cartItem.id === item.id);
     if (existingItem) {
-      // Se o item já existe, apenas atualize a quantidade
+
       updateQuantity(item.id, existingItem.quantity + 1);
     } else {
-      // Caso contrário, adicione o item ao carrinho com quantidade 1
       setCartItems((prevCartItems) => [...prevCartItems, { ...item, quantity: 1 }]);
     }
   };

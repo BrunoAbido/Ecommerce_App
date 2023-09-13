@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { useFavorites } from "../../contextoFavorites";
+import { useCart } from "../../contextCart";
 
 type RootStackParamList = {
   Details: {
@@ -18,18 +19,39 @@ export function Details({ route, navigation }: DetailsProps) {
   const { itemId, description, image, name, price, category } = route.params as any;
 
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
-  const itemIsFavorite = isFavorite(itemId);
+  const [itemQuantity, setItemQuantity] = useState(1); // Inicie com 1 item
+  const { addToCart } = useCart();
+
+  useEffect(() => {
+    // Atualize o newPrice sempre que a quantidade do item mudar
+    const newPrice = price * itemQuantity;
+    navigation.setParams({ newPrice });
+  }, [itemQuantity, price, navigation]);
 
   const handleAddItem = () => {
-    if (!itemIsFavorite) {
-      addToFavorites({
-        id: itemId, title: name, description, price, category, image,
-        categoryId: ""
-      });
-    } else {
-      removeFromFavorites(itemId);
+    setItemQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  const handleRemoveItem = () => {
+    if (itemQuantity > 1) {
+      setItemQuantity((prevQuantity) => prevQuantity - 1);
     }
   };
+
+  const handleAddToCart = () => {
+    addToCart({
+      id: itemId,
+      title: name,
+      description,
+      price,
+      category,
+      image,
+      categoryId: "",
+      quantity: itemQuantity,
+    });
+  };
+
+  const itemIsFavorite = isFavorite(itemId);
 
   return (
     <View style={styles.container}>
@@ -38,11 +60,30 @@ export function Details({ route, navigation }: DetailsProps) {
           <Image source={require("../../assets/images/arrow_back_ios.png")} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Details</Text>
-        <TouchableOpacity onPress={() => handleAddItem()} style={styles.favoriteButton}>
+        <TouchableOpacity
+          onPress={() => {
+            if (!itemIsFavorite) {
+              addToFavorites({
+                id: itemId,
+                title: name,
+                description,
+                price,
+                category,
+                image,
+                categoryId: "",
+              });
+            } else {
+              removeFromFavorites(itemId);
+            }
+          }}
+          style={styles.favoriteButton}
+        >
           <Image
-            source={itemIsFavorite
-              ? require("../../assets/images/favorite.png")
-              : require("../../assets/images/favorite_border.png")}
+            source={
+              itemIsFavorite
+                ? require("../../assets/images/favorite.png")
+                : require("../../assets/images/favorite_border.png")
+            }
             style={styles.favoriteIcon}
             resizeMode="cover"
           />
@@ -63,6 +104,10 @@ export function Details({ route, navigation }: DetailsProps) {
         <View style={styles.priceContainer}>
           <Text style={styles.price}>${price.toFixed(2)}</Text>
           <View style={styles.quantityContainer}>
+            <TouchableOpacity onPress={handleRemoveItem}>
+              <Image source={require("../../assets/images/Less.png")} />
+            </TouchableOpacity>
+            <Text style={styles.quantityText}>{itemQuantity}</Text>
             <TouchableOpacity onPress={handleAddItem}>
               <Image source={require("../../assets/images/Plus.png")} />
             </TouchableOpacity>
@@ -73,15 +118,17 @@ export function Details({ route, navigation }: DetailsProps) {
       <View style={styles.footer}>
         <View style={styles.totalContainer}>
           <Text style={styles.footerText}>Total price</Text>
-          <Text style={styles.newPrice}>${(price * 0).toFixed(2)}</Text>
+          <Text style={styles.newPrice}>${(price * itemQuantity).toFixed(2)}</Text>
         </View>
-        <TouchableOpacity onPress={handleAddItem} style={styles.footerButton}>
+        <TouchableOpacity onPress={handleAddToCart} style={styles.footerButton}>
           <Text style={styles.buttonText}>Add to cart</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
